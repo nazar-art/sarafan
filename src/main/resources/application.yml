@@ -1,0 +1,46 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: sarafan
+
+  # ===============================
+  # = DATA SOURCE
+  # ===============================
+  datasource:
+    initialization-mode: always
+    url: jdbc:mysql://localhost:3306/sarafan_db?createDatabaseIfNotExist=true
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    platform: mysql
+
+  # ===============================
+  # = JPA / HIBERNATE
+  # ===============================
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+        jdbc.lob.non_contextual_creation: true
+
+  mail:
+    host: smtp.yandex.ru
+    username: uw@dru.su
+    password: 12345678
+    port: 465
+    protocol: smtps
+
+# ===============================
+# = LOGGING
+# ===============================
+logging:
+  level:
+    net.lelyak: debug
