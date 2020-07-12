@@ -2,8 +2,9 @@ package edu.lelyak.controller;
 
 import edu.lelyak.domain.User;
 import edu.lelyak.repository.MessageRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,13 @@ import java.util.HashMap;
 @Slf4j
 @Controller
 @RequestMapping("/")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MainController {
 
     private final MessageRepository messageRepository;
+
+    @Value("${spring.profiles.active}")
+    private String profile;
 
     @GetMapping
     public String main(Model model, @AuthenticationPrincipal User user) {
@@ -31,6 +35,8 @@ public class MainController {
         data.put("messages", messageRepository.findAll());
 
         model.addAttribute("frontendData", data);
+        model.addAttribute("isDevMode", "dev".equals(profile));
+
         return "index";
     }
 }

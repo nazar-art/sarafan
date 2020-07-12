@@ -1,8 +1,5 @@
 package edu.lelyak.config;
 
-/**
- * @author Nazar Lelyak.
- */
 
 import edu.lelyak.domain.User;
 import edu.lelyak.repository.UserDetailsRepository;
@@ -16,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import java.time.LocalDateTime;
 
+/**
+ * @author Nazar Lelyak.
+ */
 @Configuration
 @EnableOAuth2Sso
 @EnableWebSecurity
