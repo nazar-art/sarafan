@@ -12,7 +12,7 @@ spring:
     initialization-mode: always
 #    url: jdbc:mysql://localhost:3306/sarafan_db?createDatabaseIfNotExist=true
 #    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:postgresql://localhost:5432/sarafan_db?createDatabaseIfNotExist=true
+    url: jdbc:postgresql://localhost:5432/sarafan_db
     driverClassName: org.postgresql.Driver
     username: postgres
     password: root
