@@ -7,7 +7,9 @@ const handlers = []
 
 export function connect() {
     const socket = new SockJS('/gs-guide-websocket')
+
     stompClient = Stomp.over(socket)
+
     stompClient.connect({}, frame => {
         console.log('Connected: ' + frame)
         stompClient.subscribe('/topic/activity', message => {
