@@ -23,6 +23,7 @@ repositories {
 dependencies {
     // WEB
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
     // SECURITY
     compile('org.springframework.boot:spring-boot-starter-security')
