@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("message")
+@RequestMapping("/message")
 public class MessageController {
 
     private final MessageRepository messageRepository;
@@ -33,7 +33,7 @@ public class MessageController {
         return messageRepository.findAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @JsonView(Views.FullMessage.class)
     public Message getOne(@PathVariable("id") Message message) {
         return message;
@@ -45,7 +45,7 @@ public class MessageController {
         return messageRepository.save(message);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public Message update(
             @PathVariable("id") Message messageFromDb,
             @RequestBody Message message) {
@@ -54,7 +54,7 @@ public class MessageController {
         return messageRepository.save(messageFromDb);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Message message) {
         messageRepository.delete(message);

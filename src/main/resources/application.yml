@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 9000
 
 spring:
   application:
@@ -10,24 +10,26 @@ spring:
   # ===============================
   datasource:
     initialization-mode: always
-    url: jdbc:mysql://localhost:3306/sarafan_db?createDatabaseIfNotExist=true
-    driverClassName: com.mysql.cj.jdbc.Driver
-    username: root
+#    url: jdbc:mysql://localhost:3306/sarafan_db?createDatabaseIfNotExist=true
+#    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://localhost:5432/sarafan_db?createDatabaseIfNotExist=true
+    driverClassName: org.postgresql.Driver
+    username: postgres
     password: root
-    platform: mysql
+    platform: postgres
 
   # ===============================
   # = JPA / HIBERNATE
   # ===============================
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     open-in-view: false
     show-sql: true
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         format_sql: true
         jdbc.lob.non_contextual_creation: true
 
@@ -37,6 +39,28 @@ spring:
     password: 12345678
     port: 465
     protocol: smtps
+
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+      schema: classpath:session_tables.sql
+
+# ===============================
+# = SECURITY
+# ===============================
+security:
+  oauth2:
+    client:
+      clientId: 1090664702599-ea7memu8rbalsdkofpmdmi958l3k1shi.apps.googleusercontent.com
+      clientSecret: ${client-secret}
+      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+      clientAuthenticationScheme: form
+      scope: openid,email,profile
+    resource:
+      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+      preferTokenInfo: true
 
 # ===============================
 # = LOGGING

@@ -1,3 +1,17 @@
+After launching the app navigate to:
+
+    http://localhost:9000/login
+
+Login with OAuth auth.
+
+You could find details about your cloud applications:
+
+    https://console.cloud.google.com/apis/credentials?project=srafan-demo&supportedpurview=project
+    
+Also, don't forget set `client-secret` to environment-variables for IntelliJ configuration settings.
+
+---
+
 calls from browser console:
 
 GET all
