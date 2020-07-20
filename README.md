@@ -1,3 +1,13 @@
+Launch UI:
+
+    yarn start
+    
+Launch backend by running main() for Application class or     
+
+    build spring-boot:run
+
+---
+
 After launching the app navigate to:
 
     http://localhost:9000/login
