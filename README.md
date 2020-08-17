@@ -1,3 +1,11 @@
+You need Postgres installed first. 
+
+Create `sarafan_db`. 
+
+Update credentials at `application.yml`
+
+---
+
 Launch UI:
 
     yarn start
