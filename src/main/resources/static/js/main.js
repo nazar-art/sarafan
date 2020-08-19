@@ -1,8 +1,10 @@
 import Vue from 'vue'
 // import VueResource from 'vue-resource'
 import Vuetify from 'vuetify'
+import '@babel/polyfill'
 import 'api/resource'
 import App from 'pages/App.vue'
+import store from 'store/store'
 import { connect } from './util/ws'
 import 'vuetify/dist/vuetify.min.css'
 
@@ -15,6 +17,7 @@ Vue.use(Vuetify, { iconfont: 'mdiSvg' })
 
 new Vue({
     el: '#app',
+    store,
     vuetify: new Vuetify(),
     render: a => a(App)
 })
