@@ -36,4 +36,18 @@ public class Message implements Serializable {
     @JsonView(Views.FullMessage.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime creationDate;
+
+
+    @JsonView(Views.FullMessage.class)
+    private String link;
+
+    @JsonView(Views.FullMessage.class)
+    private String linkTitle;
+
+    @JsonView(Views.FullMessage.class)
+    private String linkDescription;
+
+    @JsonView(Views.FullMessage.class)
+    private String linkCover;
+
 }
