@@ -30,8 +30,11 @@ You could find details about your cloud applications:
 
     https://console.cloud.google.com/apis/credentials?project=srafan-demo&supportedpurview=project
     
-Also, don't forget set `client-secret` to environment-variables for IntelliJ configuration settings.
+Also, don't forget set environment-variables for IntelliJ configuration settings:
 
+    client-secret - ...
+    spring.profiles.active - dev
+    
 ---
 
 #### Calls which are possible from browser's console:
