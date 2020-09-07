@@ -1,22 +1,26 @@
+# Sarafan - modern chat app based on Spring Boot
+
+## Installation steps
+
 You need Postgres installed first. 
 
-Create `sarafan_db`. 
+Create `sarafan_db` & `sarafan_test_db`. 
 
-Update credentials at `application.yml`
+Update credentials for DB at `application.yml`
 
 ---
 
-Launch UI:
+### Launch UI:
 
     yarn start
     
-Launch backend by running main() for Application class or     
+### Launch backend by running `main()` for Application class or     
 
     build spring-boot:run
 
 ---
 
-After launching the app navigate to:
+### Open the app at:
 
     http://localhost:9000/login
 
@@ -30,17 +34,17 @@ Also, don't forget set `client-secret` to environment-variables for IntelliJ con
 
 ---
 
-calls from browser console:
+#### Calls which are possible from browser's console:
 
-GET all
+###### GET all
 
     fetch('/message/').then(response => response.json().then(console.log))
 
-GET one
+###### GET one
 
     fetch('/message/2').then(response => response.json().then(console.log))
 
-POST add new one
+###### POST add new one
 
     fetch(
       '/message', 
@@ -51,7 +55,7 @@ POST add new one
       }
     ).then(result => result.json().then(console.log))
 
-PUT save existing
+###### PUT save existing
 
     fetch(
       '/message/4', 
@@ -62,6 +66,8 @@ PUT save existing
       }
     ).then(result => result.json().then(console.log));
 
-// DELETE existing
+###### DELETE existing
 
     fetch('/message/4', { method: 'DELETE' }).then(result => console.log(result))
+    
+    
