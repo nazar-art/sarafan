@@ -1,34 +1,47 @@
 <template>
-    <v-card class="my-2">
-        <v-card-text primary-title>
-            <i>({{ message.id }})</i>
-            {{ message.text }}
-        </v-card-text>
-
-        <media v-if="message.link" :message="message"></media>
-
-        <v-card-actions>
-            <v-btn value="Edit" @click="edit" small text rounded>Edit</v-btn>
-
-            <v-btn value="Delete" icon @click="del" small text rounded>Delete</v-btn>
-        </v-card-actions>
-    </v-card>
+    <v-layout row>
+        <v-text-field
+                label="New message"
+                placeholder="Write something"
+                v-model="text"
+                @keyup.enter="save"
+        />
+        <v-btn @click="save">
+            Save
+        </v-btn>
+    </v-layout>
 </template>
 
 <script>
     import { mapActions } from 'vuex'
-    import Media from 'components/media/Media.vue'
-
     export default {
-        props: ['message', 'editMessage'],
-        components: { Media },
+        props: ['messageAttr'],
+        data() {
+            return {
+                text: '',
+                id: ''
+            }
+        },
+        watch: {
+            messageAttr(newVal, oldVal) {
+                this.text = newVal.text
+                this.id = newVal.id
+            }
+        },
         methods: {
-            ...mapActions(['removeMessageAction']),
-            edit() {
-                this.editMessage(this.message)
-            },
-            del() {
-                this.removeMessageAction(this.message)
+            ...mapActions(['addMessageAction', 'updateMessageAction']),
+            save() {
+                const message = {
+                    id: this.id,
+                    text: this.text
+                }
+                if (this.id) {
+                    this.updateMessageAction(message)
+                } else {
+                    this.addMessageAction(message)
+                }
+                this.text = ''
+                this.id = ''
             }
         }
     }
