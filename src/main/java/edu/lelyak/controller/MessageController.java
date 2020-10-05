@@ -27,7 +27,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-//@AllArgsConstructor
 @RequestMapping("/message")
 public class MessageController {
 

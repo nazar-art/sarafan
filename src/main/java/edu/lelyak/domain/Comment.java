@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 @Table
 @Entity
-@EqualsAndHashCode(of = { "id" })
+@EqualsAndHashCode(of = {"id"})
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,12 +27,14 @@ public class Comment implements Serializable {
     private String text;
 
     @ManyToOne
+//    @JsonBackReference
+    @JsonView(Views.IdName.class)
     @JoinColumn(name = "message_id")
     private Message message;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    @JsonView(Views.FullMessage.class)
+    @JsonView(Views.IdName.class)
     private User author;
 
 }

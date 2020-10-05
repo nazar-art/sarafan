@@ -23,7 +23,6 @@ import java.util.HashMap;
 @Slf4j
 @Controller
 @RequestMapping("/")
-//@RequiredArgsConstructor
 public class MainController {
 
     private final MessageRepository messageRepository;
@@ -54,6 +53,8 @@ public class MainController {
             String messages = writer.writeValueAsString(messageRepository.findAll());
             log.debug("ALL_MESSAGES: {}", messages);
             model.addAttribute("messages", messages);
+        } else {
+            model.addAttribute("messages", "[]");
         }
 
         model.addAttribute("frontendData", data);

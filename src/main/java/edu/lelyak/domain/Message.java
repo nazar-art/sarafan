@@ -1,7 +1,9 @@
 package edu.lelyak.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,6 +23,10 @@ import java.util.List;
 @NoArgsConstructor
 @ToString(of = {"id", "text"})
 @EqualsAndHashCode(of = {"id"})
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Message implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +49,7 @@ public class Message implements Serializable {
     @JsonView(Views.FullMessage.class)
     private User author;
 
+    //    @JsonManagedReference
     @JsonView(Views.FullMessage.class)
     @OneToMany(mappedBy = "message", orphanRemoval = true)
     private List<Comment> comments;

@@ -23,7 +23,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    @JsonView(Views.FullMessage.class)
+    @JsonView(Views.FullComment.class)
     public Comment create(
             @RequestBody Comment comment,
             @AuthenticationPrincipal User user) {
