@@ -2,6 +2,7 @@ package edu.lelyak.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import edu.lelyak.domain.Message;
+import edu.lelyak.domain.User;
 import edu.lelyak.domain.Views;
 import edu.lelyak.dto.EventType;
 import edu.lelyak.dto.MetaDto;
@@ -15,6 +16,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -25,7 +27,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-//@AllArgsConstructor
 @RequestMapping("/message")
 public class MessageController {
 
@@ -44,6 +45,7 @@ public class MessageController {
         this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.IdName.class);
     }
 
+
     @GetMapping
     @JsonView(Views.IdName.class)
     public List<Message> list() {
@@ -57,9 +59,12 @@ public class MessageController {
     }
 
     @PostMapping
-    public Message create(@RequestBody Message message) throws IOException {
+    public Message create(@RequestBody Message message,
+                          @AuthenticationPrincipal User user) throws IOException {
+
         message.setCreationDate(LocalDateTime.now());
         fillMeta(message);
+        message.setAuthor(user);
         Message createdMessage = messageRepository.save(message);
 
         wsSender.accept(EventType.CREATE, createdMessage);

@@ -1,6 +1,7 @@
 package edu.lelyak.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,9 +27,15 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @JsonView(Views.IdName.class)
     private String id;
+
+    @JsonView(Views.IdName.class)
     private String name;
+
+    @JsonView(Views.IdName.class)
     private String userPic;
+
     private String email;
     private String locale;
 
