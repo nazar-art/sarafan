@@ -26,6 +26,7 @@ import java.util.List;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
+//        generator = ObjectIdGenerators.IntSequenceGenerator.class
 )
 public class Message implements Serializable {
 

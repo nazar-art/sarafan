@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
+    import {mapActions} from 'vuex'
 
     export default {
         props: ['messageAttr'],
@@ -38,10 +38,20 @@
                     text: this.text
                 }
 
-                if (this.id) {
+                /*if (this.id) {
                     this.updateMessageAction(message)
                 } else {
                     this.addMessageAction(message)
+                }*/
+                if (this.id) {
+                    this.updateMessageAction({
+                        id: this.id,
+                        text: this.text
+                    });
+                } else {
+                    this.addMessageAction({
+                        text: this.text
+                    });
                 }
 
                 this.text = ''

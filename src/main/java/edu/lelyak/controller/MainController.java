@@ -5,39 +5,45 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import edu.lelyak.domain.User;
 import edu.lelyak.domain.Views;
-import edu.lelyak.repository.MessageRepository;
-import lombok.extern.slf4j.Slf4j;
+import edu.lelyak.dto.MessagePageDto;
+import edu.lelyak.repository.UserDetailsRepository;
+import edu.lelyak.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.HashMap;
 
-/**
- * @author Nazar Lelyak.
- */
-@Slf4j
 @Controller
 @RequestMapping("/")
 public class MainController {
-
-    private final MessageRepository messageRepository;
-    private final ObjectWriter writer;
+    private final MessageService messageService;
+    private final UserDetailsRepository userDetailsRepo;
 
     @Value("${spring.profiles.active}")
     private String profile;
+    private final ObjectWriter messageWriter;
+    private final ObjectWriter profileWriter;
 
     @Autowired
-    public MainController(MessageRepository messageRepository, ObjectMapper mapper) {
-        this.messageRepository = messageRepository;
+    public MainController(MessageService messageService, UserDetailsRepository userDetailsRepo, ObjectMapper mapper) {
+        this.messageService = messageService;
+        this.userDetailsRepo = userDetailsRepo;
 
-        this.writer = mapper
-                .setConfig(mapper.getSerializationConfig())
+        ObjectMapper objectMapper = mapper
+                .setConfig(mapper.getSerializationConfig());
+
+        this.messageWriter = objectMapper
                 .writerWithView(Views.FullMessage.class);
+        this.profileWriter = objectMapper
+                .writerWithView(Views.FullProfile.class);
     }
 
     @GetMapping
@@ -48,13 +54,23 @@ public class MainController {
         HashMap<Object, Object> data = new HashMap<>();
 
         if (user != null) {
-            data.put("profile", user);
+            User userFromDb = userDetailsRepo.findById(user.getId())
+                    .orElseThrow(EntityNotFoundException::new);
+            String serializedProfile = profileWriter.writeValueAsString(userFromDb);
+            model.addAttribute("profile", serializedProfile);
 
-            String messages = writer.writeValueAsString(messageRepository.findAll());
-            log.debug("ALL_MESSAGES: {}", messages);
+            Sort sort = Sort.by(Sort.Direction.DESC, "id");
+            PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
+            MessagePageDto messagePageDto = messageService.findAll(pageRequest);
+
+            String messages = messageWriter.writeValueAsString(messagePageDto.getMessages());
+
             model.addAttribute("messages", messages);
+            data.put("currentPage", messagePageDto.getCurrentPage());
+            data.put("totalPages", messagePageDto.getTotalPages());
         } else {
             model.addAttribute("messages", "[]");
+            model.addAttribute("profile", "null");
         }
 
         model.addAttribute("frontendData", data);

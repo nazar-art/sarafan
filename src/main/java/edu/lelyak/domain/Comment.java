@@ -28,7 +28,7 @@ public class Comment implements Serializable {
 
     @ManyToOne
 //    @JsonBackReference
-    @JsonView(Views.IdName.class)
+    @JsonView(Views.FullComment.class)
     @JoinColumn(name = "message_id")
     private Message message;
 
