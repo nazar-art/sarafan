@@ -51,8 +51,8 @@ public class User implements Serializable {
     @JsonIdentityReference
     @JsonView(Views.FullProfile.class)
     @JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
     )
     private Set<User> subscriptions = new HashSet<>();
 
@@ -66,8 +66,8 @@ public class User implements Serializable {
     @JsonIdentityReference
     @JsonView(Views.FullProfile.class)
     @JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
     )
     private Set<User> subscribers = new HashSet<>();
 }
