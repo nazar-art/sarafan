@@ -9,36 +9,21 @@ spring:
   # = DATA SOURCE
   # ===============================
   datasource:
-    initialization-mode: always
-#    url: jdbc:mysql://localhost:3306/sarafan_db?createDatabaseIfNotExist=true
-#    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:postgresql://localhost:5432/sarafan_db
-    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost/sarafan_db
     username: postgres
     password: root
-    platform: postgres
 
   # ===============================
   # = JPA / HIBERNATE
   # ===============================
   jpa:
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
-    open-in-view: false
     show-sql: true
-    hibernate:
-      ddl-auto: update
+    generate-ddl: true
+    open-in-view: false
     properties:
       hibernate:
         format_sql: true
         jdbc.lob.non_contextual_creation: true
-
-  mail:
-    host: smtp.yandex.ru
-    username: uw@dru.su
-    password: 12345678
-    port: 465
-    protocol: smtps
 
   session:
     jdbc:

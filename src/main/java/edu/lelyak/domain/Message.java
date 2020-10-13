@@ -52,7 +52,7 @@ public class Message implements Serializable {
 
     //    @JsonManagedReference
     @JsonView(Views.FullMessage.class)
-    @OneToMany(mappedBy = "message", orphanRemoval = true)
+    @OneToMany(mappedBy = "message", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
 
