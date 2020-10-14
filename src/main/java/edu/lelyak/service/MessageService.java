@@ -2,12 +2,14 @@ package edu.lelyak.service;
 
 import edu.lelyak.domain.Message;
 import edu.lelyak.domain.User;
+import edu.lelyak.domain.UserSubscription;
 import edu.lelyak.domain.Views;
 import edu.lelyak.dto.EventType;
 import edu.lelyak.dto.MessagePageDto;
 import edu.lelyak.dto.MetaDto;
 import edu.lelyak.dto.ObjectType;
 import edu.lelyak.repository.MessageRepository;
+import edu.lelyak.repository.UserSubscriptionRepository;
 import edu.lelyak.util.WsSender;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,27 +23,38 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author Nazar Lelyak.
  */
 @Service
 public class MessageService {
+
     private static final String URL_PATTERN = "https?:\\/\\/?[\\w\\d\\._\\-%\\/\\?=&#]+";
     private static final String IMAGE_PATTERN = "\\.(jpeg|jpg|gif|png)$";
 
     private static final Pattern URL_REGEX = Pattern.compile(URL_PATTERN, Pattern.CASE_INSENSITIVE);
     private static final Pattern IMG_REGEX = Pattern.compile(IMAGE_PATTERN, Pattern.CASE_INSENSITIVE);
 
-    private final MessageRepository messageRepository;
+
+    private final MessageRepository messageRepo;
+    private final UserSubscriptionRepository userSubscriptionRepo;
     private final BiConsumer<EventType, Message> wsSender;
 
+
     @Autowired
-    public MessageService(MessageRepository messageRepository, WsSender wsSender) {
-        this.messageRepository = messageRepository;
+    public MessageService(
+            MessageRepository messageRepo,
+            UserSubscriptionRepository userSubscriptionRepo,
+            WsSender wsSender
+    ) {
+        this.messageRepo = messageRepo;
+        this.userSubscriptionRepo = userSubscriptionRepo;
         this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.IdName.class);
     }
 
@@ -59,7 +72,6 @@ public class MessageService {
 
             if (matcher.find()) {
                 message.setLinkCover(url);
-
             } else if (!url.contains("youtu")) {
                 MetaDto meta = getMeta(url);
 
@@ -89,15 +101,14 @@ public class MessageService {
     }
 
     public void delete(Message message) {
-        messageRepository.delete(message);
+        messageRepo.delete(message);
         wsSender.accept(EventType.REMOVE, message);
     }
 
     public Message update(Message messageFromDb, Message message) throws IOException {
-
         BeanUtils.copyProperties(message, messageFromDb, "id");
         fillMeta(messageFromDb);
-        Message updatedMessage = messageRepository.save(messageFromDb);
+        Message updatedMessage = messageRepo.save(messageFromDb);
 
         wsSender.accept(EventType.UPDATE, updatedMessage);
 
@@ -108,15 +119,23 @@ public class MessageService {
         message.setCreationDate(LocalDateTime.now());
         fillMeta(message);
         message.setAuthor(user);
-        Message createdMessage = messageRepository.save(message);
+        Message updatedMessage = messageRepo.save(message);
 
-        wsSender.accept(EventType.CREATE, createdMessage);
+        wsSender.accept(EventType.CREATE, updatedMessage);
 
-        return createdMessage;
+        return updatedMessage;
     }
 
-    public MessagePageDto findAll(Pageable pageable) {
-        Page<Message> page = messageRepository.findAll(pageable);
+    public MessagePageDto findForUser(Pageable pageable, User user) {
+        List<User> channels = userSubscriptionRepo.findBySubscriber(user)
+                .stream()
+                .map(UserSubscription::getChannel)
+                .collect(Collectors.toList());
+
+        channels.add(user);
+
+        Page<Message> page = messageRepo.findByAuthorIn(channels, pageable);
+
         return new MessagePageDto(
                 page.getContent(),
                 pageable.getPageNumber(),

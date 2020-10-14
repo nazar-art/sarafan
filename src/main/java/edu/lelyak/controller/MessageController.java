@@ -18,22 +18,22 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/message")
+@RequestMapping("message")
 public class MessageController {
-
     public static final int MESSAGES_PER_PAGE = 3;
-    private final MessageService messageService;
 
+    private final MessageService messageService;
 
     @GetMapping
     @JsonView(Views.FullMessage.class)
     public MessagePageDto list(
-            @PageableDefault(size = MESSAGES_PER_PAGE, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+            @AuthenticationPrincipal User user,
+            @PageableDefault(size = MESSAGES_PER_PAGE, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return messageService.findAll(pageable);
+        return messageService.findForUser(pageable, user);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     @JsonView(Views.FullMessage.class)
     public Message getOne(@PathVariable("id") Message message) {
         return message;
@@ -44,11 +44,10 @@ public class MessageController {
             @RequestBody Message message,
             @AuthenticationPrincipal User user
     ) throws IOException {
-
         return messageService.create(message, user);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public Message update(
             @PathVariable("id") Message messageFromDb,
             @RequestBody Message message
@@ -56,16 +55,8 @@ public class MessageController {
         return messageService.update(messageFromDb, message);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Message message) {
         messageService.delete(message);
     }
-
-    /*@MessageMapping("/changeMessage")
-    @SendTo("/topic/activity")
-    public Message change(Message message) {
-        return messageRepository.save(message);
-    }*/
-
 }

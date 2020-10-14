@@ -20,33 +20,40 @@ import java.time.LocalDateTime;
 @EnableOAuth2Sso
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/js/**", "/error**")
-                .permitAll()
+                .antMatchers("/", "/login**", "/js/**", "/error**").permitAll()
                 .anyRequest().authenticated()
+                .and().logout().logoutSuccessUrl("/").permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/").permitAll();
+                .csrf().disable();
     }
 
     @Bean
-    public PrincipalExtractor principalExtractor(UserDetailsRepository detailsRepository) {
+    public PrincipalExtractor principalExtractor(UserDetailsRepository userDetailsRepo) {
         return map -> {
             String id = (String) map.get("sub");
 
-            User user = detailsRepository.findById(id)
-                    .orElseGet(() -> User.builder()
-                            .id(id)
-                            .name((String) map.get("name"))
-                            .email((String) map.get("email"))
-                            .locale((String) map.get("locale"))
-                            .userPic((String) map.get("picture"))
-                            .build());
+            User user = userDetailsRepo.findById(id).orElseGet(() -> {
+                User newUser = new User();
+
+                newUser.setId(id);
+                newUser.setName((String) map.get("name"));
+                newUser.setEmail((String) map.get("email"));
+                newUser.setGender((String) map.get("gender"));
+                newUser.setLocale((String) map.get("locale"));
+                newUser.setUserpic((String) map.get("picture"));
+
+                return newUser;
+            });
 
             user.setLastVisit(LocalDateTime.now());
-            return detailsRepository.save(user);
+
+            return userDetailsRepo.save(user);
         };
     }
 }

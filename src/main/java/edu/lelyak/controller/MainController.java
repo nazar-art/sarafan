@@ -24,11 +24,13 @@ import java.util.HashMap;
 @Controller
 @RequestMapping("/")
 public class MainController {
+
     private final MessageService messageService;
     private final UserDetailsRepository userDetailsRepo;
 
     @Value("${spring.profiles.active}")
     private String profile;
+
     private final ObjectWriter messageWriter;
     private final ObjectWriter profileWriter;
 
@@ -56,12 +58,13 @@ public class MainController {
         if (user != null) {
             User userFromDb = userDetailsRepo.findById(user.getId())
                     .orElseThrow(EntityNotFoundException::new);
+
             String serializedProfile = profileWriter.writeValueAsString(userFromDb);
             model.addAttribute("profile", serializedProfile);
 
             Sort sort = Sort.by(Sort.Direction.DESC, "id");
             PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
-            MessagePageDto messagePageDto = messageService.findAll(pageRequest);
+            MessagePageDto messagePageDto = messageService.findForUser(pageRequest, user);
 
             String messages = messageWriter.writeValueAsString(messagePageDto.getMessages());
 
