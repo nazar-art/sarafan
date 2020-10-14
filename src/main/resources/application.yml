@@ -11,7 +11,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost/sarafan_db
     username: postgres
-    password: root
+    password: secret
 
   # ===============================
   # = JPA / HIBERNATE
