@@ -1,5 +1,7 @@
 package edu.lelyak.config;
 
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
@@ -22,4 +24,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return container -> container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/"));
     }
 
+    @Bean
+    public Module datatypeHibernateModule() {
+        return new Hibernate5Module();
+    }
 }
