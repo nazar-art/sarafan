@@ -1,17 +1,13 @@
 package edu.lelyak.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonView;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Nazar Lelyak.
@@ -22,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
+@EqualsAndHashCode(of = {"id"})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,8 +34,40 @@ public class User implements Serializable {
     private String userPic;
 
     private String email;
+
+    @JsonView(Views.FullProfile.class)
     private String locale;
 
+    @JsonView(Views.FullProfile.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastVisit;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = @JoinColumn(name = "subscriber_id"),
+            inverseJoinColumns = @JoinColumn(name = "channel_id")
+    )
+    @JsonIdentityReference
+    @JsonView(Views.FullProfile.class)
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
+    )
+    private Set<User> subscriptions = new HashSet<>();
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscribers",
+            joinColumns = @JoinColumn(name = "channel_id"),
+            inverseJoinColumns = @JoinColumn(name = "subscriber_id")
+    )
+    @JsonIdentityReference
+    @JsonView(Views.FullProfile.class)
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
+    )
+    private Set<User> subscribers = new HashSet<>();
 }

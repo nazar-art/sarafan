@@ -1,15 +1,12 @@
 package edu.lelyak.service;
 
 import edu.lelyak.domain.Comment;
-import edu.lelyak.domain.Message;
 import edu.lelyak.domain.User;
 import edu.lelyak.domain.Views;
 import edu.lelyak.dto.EventType;
 import edu.lelyak.dto.ObjectType;
 import edu.lelyak.repository.CommentRepository;
 import edu.lelyak.util.WsSender;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
