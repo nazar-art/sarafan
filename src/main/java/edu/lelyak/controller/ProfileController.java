@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("profile")
 public class ProfileController {
+
     private final ProfileService profileService;
 
     @GetMapping("{id}")
@@ -22,6 +23,7 @@ public class ProfileController {
     public User get(@PathVariable("id") User user) {
         return user;
     }
+
 
     @PostMapping("change-subscription/{channelId}")
     @JsonView(Views.FullProfile.class)

@@ -4,8 +4,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * @author Nazar Lelyak.
@@ -13,28 +18,24 @@ import java.io.Serializable;
 @Data
 @Table
 @Entity
-@EqualsAndHashCode(of = {"id"})
-public class Comment implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@EqualsAndHashCode(of = { "id" })
+public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.IdName.class)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonView(Views.IdName.class)
     private String text;
 
     @ManyToOne
-//    @JsonBackReference
-    @JsonView(Views.FullComment.class)
     @JoinColumn(name = "message_id")
+    @JsonView(Views.FullComment.class)
     private Message message;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     @JsonView(Views.IdName.class)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User author;
-
 }
