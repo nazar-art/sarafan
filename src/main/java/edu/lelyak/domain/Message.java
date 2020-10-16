@@ -113,9 +113,6 @@ public class Message implements Serializable {
     private List<Comment> comments;
 
 
-    *//**
-     * Meta information for links:
-     *//*
     @JsonView(Views.FullMessage.class)
     private String link;
 
