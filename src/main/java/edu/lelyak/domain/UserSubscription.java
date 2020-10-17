@@ -3,6 +3,7 @@ package edu.lelyak.domain;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.EmbeddedId;
@@ -16,6 +17,7 @@ import java.io.Serializable;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @ToString(of = "id")
 @EqualsAndHashCode(of = "id")
 public class UserSubscription implements Serializable {
@@ -34,8 +36,8 @@ public class UserSubscription implements Serializable {
     )
     private User channel;
 
-    @MapsId("subscriberId")
     @ManyToOne
+    @MapsId("subscriberId")
     @JsonView(Views.IdName.class)
     @JsonIdentityReference
     @JsonIdentityInfo(

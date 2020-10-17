@@ -18,6 +18,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     @EntityGraph(attributePaths = {"comments"})
     Page<Message> findAll(Pageable pageable);
 
-    @EntityGraph(attributePaths = { "comments" })
+    @EntityGraph(attributePaths = {"comments"})
     Page<Message> findByAuthorIn(List<User> users, Pageable pageable);
 }
