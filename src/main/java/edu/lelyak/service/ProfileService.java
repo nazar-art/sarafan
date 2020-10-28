@@ -3,6 +3,7 @@ package edu.lelyak.service;
 import edu.lelyak.domain.User;
 import edu.lelyak.domain.UserSubscription;
 import edu.lelyak.repository.UserDetailsRepository;
+import edu.lelyak.repository.UserSubscriptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class ProfileService {
 
     private final UserDetailsRepository userDetailsRepo;
+    private final UserSubscriptionRepository userSubscriptionRepo;
 
     public User changeSubscription(User channel, User subscriber) {
         List<UserSubscription> subscriptions = channel.getSubscribers()
@@ -34,5 +36,16 @@ public class ProfileService {
         }
 
         return userDetailsRepo.save(channel);
+    }
+
+    public List<UserSubscription> getSubscribers(User channel) {
+        return userSubscriptionRepo.findByChannel(channel);
+    }
+
+    public UserSubscription changeSubscriptionStatus(User channel, User subscriber) {
+        UserSubscription subscription = userSubscriptionRepo.findByChannelAndSubscriber(channel, subscriber);
+        subscription.setActive(!subscription.isActive());
+
+        return userSubscriptionRepo.save(subscription);
     }
 }

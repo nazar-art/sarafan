@@ -2,11 +2,14 @@ package edu.lelyak.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import edu.lelyak.domain.User;
+import edu.lelyak.domain.UserSubscription;
 import edu.lelyak.domain.Views;
 import edu.lelyak.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Nazar Lelyak.
@@ -39,4 +42,20 @@ public class ProfileController {
     }
 
 
+    @GetMapping("get-subscribers/{channelId}")
+    @JsonView(Views.IdName.class)
+    public List<UserSubscription> subscribers(
+            @PathVariable("channelId") User channel
+    ) {
+        return profileService.getSubscribers(channel);
+    }
+
+    @PostMapping("change-status/{subscriberId}")
+    @JsonView(Views.IdName.class)
+    public UserSubscription changeSubscriptionStatus(
+            @AuthenticationPrincipal User channel,
+            @PathVariable("subscriberId") User subscriber
+    ) {
+        return profileService.changeSubscriptionStatus(channel, subscriber);
+    }
 }

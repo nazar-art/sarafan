@@ -73,4 +73,10 @@ Also, don't forget set environment-variables for IntelliJ configuration settings
 
     fetch('/message/4', { method: 'DELETE' }).then(result => console.log(result))
     
+---
+
+#### Useful references    
+
+* [Sentry](https://sentry.io/)
+    
     
