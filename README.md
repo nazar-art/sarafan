@@ -45,6 +45,8 @@ Also, don't forget set environment-variables for IntelliJ configuration settings
     
 ---
 
+### Local run from console 
+
 Build it locally with front end part at jar sources:
 
     ./gradlew build
