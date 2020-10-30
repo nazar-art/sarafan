@@ -9,9 +9,9 @@ spring:
   # = DATA SOURCE
   # ===============================
   datasource:
-    url: jdbc:postgresql://localhost/sarafan_db
-    username: postgres
-    password: root
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost/sarafan_db}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
 
   # ===============================
   # = JPA / HIBERNATE
