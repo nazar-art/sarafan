@@ -285,3 +285,4 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
+/src/main/resources/static/js
