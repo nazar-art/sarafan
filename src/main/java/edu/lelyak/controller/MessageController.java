@@ -19,7 +19,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping("message")
 public class MessageController {
-    public static final int MESSAGES_PER_PAGE = 3;
+    public static final int MESSAGES_PER_PAGE = 10;
 
     private final MessageService messageService;
 

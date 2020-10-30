@@ -1,5 +1,9 @@
 # Sarafan - modern chat app based on Spring Boot
 
+## Deployed to Heroku:
+
+    https://sarafan-service.herokuapp.com/auth
+
 ## Installation steps
 
 You need Postgres installed first. 
