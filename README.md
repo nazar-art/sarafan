@@ -37,6 +37,16 @@ Also, don't forget set environment-variables for IntelliJ configuration settings
     
 ---
 
+Build it locally with front end part at jar sources:
+
+    ./gradlew build
+    
+Launch it next:    
+    
+    java -jar -Dclient-secret=... build/libs/sarafan-0.0.1-SNAPSHOT.jar 
+
+---
+
 #### Calls which are possible from browser's console:
 
 ###### GET all
