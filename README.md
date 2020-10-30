@@ -2,7 +2,7 @@
 
 ## Deployed to Heroku:
 
-    https://sarafan-service.herokuapp.com/auth
+    https://sarafan-service.herokuapp.com
 
 ## Installation steps
 
