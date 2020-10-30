@@ -3,6 +3,10 @@
 ## Deployed to Heroku:
 
     https://sarafan-service.herokuapp.com
+    
+Deploy fresh version to Heroku you could use `heroku-cli` and push needed changes to remote:
+
+    git push heroku HEAD
 
 ## Installation steps
 
