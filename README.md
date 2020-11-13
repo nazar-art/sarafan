@@ -2,7 +2,7 @@
 
 ## Deployed to Heroku:
 
-    https://sarafan-service.herokuapp.com
+    https://sarafan-service.herokuapp.com/auth
     
 Deploy fresh version to Heroku you could use `heroku-cli` and push needed changes to remote:
 
