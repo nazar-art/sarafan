@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -17,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,12 +29,12 @@ import java.util.List;
 @Entity
 @ToString(of = {"id", "text"})
 @EqualsAndHashCode(of = {"id"})
+@NoArgsConstructor
 @JsonIdentityInfo(
         property = "id",
         generator = ObjectIdGenerators.PropertyGenerator.class
 )
-public class Message implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,8 +54,8 @@ public class Message implements Serializable {
     @JsonView(Views.FullMessage.class)
     private User author;
 
-    @OneToMany(mappedBy = "message", orphanRemoval = true)
     @JsonView(Views.FullMessage.class)
+    @OneToMany(mappedBy = "message", orphanRemoval = true)
     private List<Comment> comments;
 
     /**

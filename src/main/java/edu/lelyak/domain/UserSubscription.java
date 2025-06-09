@@ -19,6 +19,7 @@ import java.io.Serializable;
 @ToString(of = "id")
 @EqualsAndHashCode(of = "id")
 public class UserSubscription implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @EmbeddedId
     @JsonIgnore

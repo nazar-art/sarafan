@@ -11,11 +11,11 @@ import edu.lelyak.dto.ObjectType;
 import edu.lelyak.repository.MessageRepository;
 import edu.lelyak.repository.UserSubscriptionRepository;
 import edu.lelyak.util.WsSender;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 @Service
 public class MessageService {
 
-    private static final String URL_PATTERN = "https?:\\/\\/?[\\w\\d\\._\\-%\\/\\?=&#]+";
+    private static final String URL_PATTERN = "https?://?[\\w\\d._\\-%/?=&#]+";
     private static final String IMAGE_PATTERN = "\\.(jpeg|jpg|gif|png)$";
 
     private static final Pattern URL_REGEX = Pattern.compile(URL_PATTERN, Pattern.CASE_INSENSITIVE);
@@ -72,7 +72,8 @@ public class MessageService {
 
             if (matcher.find()) {
                 message.setLinkCover(url);
-            } else if (!url.contains("youtu")) {
+
+            } else if (StringUtils.containsNone(url, "youtu")) {
                 MetaDto meta = getMeta(url);
 
                 message.setLinkCover(meta.getCover());
@@ -106,7 +107,8 @@ public class MessageService {
     }
 
     public Message update(Message messageFromDb, Message message) throws IOException {
-        BeanUtils.copyProperties(message, messageFromDb, "id");
+        //BeanUtils.copyProperties(message, messageFromDb, "id", "creationDate", "author", "comments");
+        messageFromDb.setText(message.getText());
         fillMeta(messageFromDb);
         Message updatedMessage = messageRepo.save(messageFromDb);
 

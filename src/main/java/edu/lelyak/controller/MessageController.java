@@ -40,6 +40,7 @@ public class MessageController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Message create(
             @RequestBody Message message,
             @AuthenticationPrincipal User user
