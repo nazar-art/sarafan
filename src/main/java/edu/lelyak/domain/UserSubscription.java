@@ -3,6 +3,7 @@ package edu.lelyak.domain;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.EmbeddedId;
@@ -18,6 +19,7 @@ import java.io.Serializable;
 @Entity
 @ToString(of = "id")
 @EqualsAndHashCode(of = "id")
+@NoArgsConstructor
 public class UserSubscription implements Serializable {
     private static final long serialVersionUID = 1L;
 
