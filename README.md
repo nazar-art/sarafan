@@ -2,9 +2,9 @@
 
 ## Installation steps
 
-You need Postgres installed first. 
+You need Postgres DB installed first. 
 
-Create `sarafan_db` & `sarafan_test_db`. 
+Create `sarafan_db`. 
 
 Update credentials for DB at `application.yml`
 
@@ -12,6 +12,7 @@ Update credentials for DB at `application.yml`
 
 ### Launch UI:
 
+    yarn instal
     yarn start
     
 ### Launch backend by running `main()` for Application class or     
@@ -34,6 +35,13 @@ Also, don't forget set environment-variables for IntelliJ configuration settings
 
     client-secret - ...
     spring.profiles.active - dev
+
+---
+
+node: v18.19.1
+yarn: 1.22.22
+gradle: 6.4.1
+java: 1.8.0
     
 ---
 

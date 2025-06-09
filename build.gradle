@@ -23,28 +23,29 @@ dependencies {
     // WEB
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // SECURITY
-    compile('org.springframework.boot:spring-boot-starter-security')
-    compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.3.1.RELEASE')
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.3.1.RELEASE'
 
     // DB
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'org.springframework.session:spring-session-jdbc'
-    compile 'org.postgresql:postgresql'
+    implementation 'org.springframework.session:spring-session-jdbc'
+    implementation 'org.postgresql:postgresql'
     implementation 'javax.xml.bind:jaxb-api'
 
     // UTILS
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.11.3'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    compile 'com.google.guava:guava:29.0-jre'
+    implementation 'com.google.guava:guava:29.0-jre'
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
-    compile 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.jsoup:jsoup:1.13.1'
 
     // UI
-    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     // TEST
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
