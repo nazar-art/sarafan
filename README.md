@@ -12,7 +12,7 @@ Update credentials for DB at `application.yml`
 
 ### Launch UI:
 
-    yarn instal
+    yarn install
     yarn start
     
 ### Launch backend by running `main()` for Application class or     
