@@ -20,7 +20,12 @@
             </v-btn>
         </v-toolbar>
         <v-content>
-            <router-view></router-view>
+          <router-view v-if="!isLoading"></router-view>
+          <v-container v-else fluid fill-height>
+            <v-layout align-center justify-center>
+              <v-progress-circular indeterminate size="64"></v-progress-circular>
+            </v-layout>
+          </v-container>
         </v-content>
     </v-app>
 </template>

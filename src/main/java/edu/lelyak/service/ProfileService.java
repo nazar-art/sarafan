@@ -24,13 +24,14 @@ public class ProfileService {
                 .filter(subscription ->
                         subscription.getSubscriber().equals(subscriber)
                 )
-                .collect(Collectors.toList());
+                .toList();
 
         if (subcriptions.isEmpty()) {
             UserSubscription subscription = new UserSubscription(channel, subscriber);
             channel.getSubscribers().add(subscription);
         } else {
-            channel.getSubscribers().removeAll(subcriptions);
+//            channel.getSubscribers().removeAll(subcriptions);
+            subcriptions.forEach(channel.getSubscribers()::remove);
         }
 
         return userDetailsRepo.save(channel);

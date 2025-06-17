@@ -3,11 +3,13 @@ package edu.lelyak.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import edu.lelyak.domain.CustomOAuth2User;
 import edu.lelyak.domain.User;
 import edu.lelyak.domain.Views;
 import edu.lelyak.dto.MessagePageDto;
 import edu.lelyak.repository.UserDetailsRepository;
 import edu.lelyak.service.MessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -18,9 +20,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.HashMap;
 
+@Slf4j
 @Controller
 @RequestMapping("/")
 public class MainController {
@@ -51,11 +54,13 @@ public class MainController {
     @GetMapping
     public String main(
             Model model,
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal CustomOAuth2User oauth2User
     ) throws JsonProcessingException {
         HashMap<Object, Object> data = new HashMap<>();
 
-        if (user != null) {
+        if (oauth2User != null) {
+            User user = oauth2User.getUser();
+            log.info("user: {}", user);
             User userFromDb = userDetailsRepo.findById(user.getId())
                     .orElseThrow(EntityNotFoundException::new);
 

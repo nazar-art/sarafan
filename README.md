@@ -38,10 +38,12 @@ Also, don't forget set environment-variables for IntelliJ configuration settings
 
 ---
 
-node: v18.19.1
-yarn: 1.22.22
-gradle: 6.4.1
-java: 1.8.0
+Tested with:
+    
+    yarn: 1.22.22
+    node: v18.20.8
+    gradle: 8.14 (min version 8.10)
+    java: 21
     
 ---
 

@@ -35,18 +35,25 @@ spring:
 # ===============================
 # = SECURITY
 # ===============================
-security:
-  oauth2:
-    client:
-      clientId: 1090664702599-ea7memu8rbalsdkofpmdmi958l3k1shi.apps.googleusercontent.com
-      clientSecret: ${client-secret}
-      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
-      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
-      clientAuthenticationScheme: form
-      scope: openid,email,profile
-    resource:
-      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-      preferTokenInfo: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1090664702599-ea7memu8rbalsdkofpmdmi958l3k1shi.apps.googleusercontent.com
+            client-secret: ${client-secret}
+            client-authentication-method: client_secret_post
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:9000/login/oauth2/code/google"
+            scope: openid,email,profile
+            client-name: Google
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://www.googleapis.com/oauth2/v4/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
 
 # ===============================
 # = LOGGING
@@ -54,3 +61,5 @@ security:
 logging:
   level:
     net.lelyak: debug
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: TRACE

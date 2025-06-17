@@ -37,6 +37,4 @@ public class ProfileController {
             return profileService.changeSubscription(channel, subscriber);
         }
     }
-
-
 }

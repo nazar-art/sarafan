@@ -2,6 +2,7 @@ package edu.lelyak.repository;
 
 import edu.lelyak.domain.Message;
 import edu.lelyak.domain.User;
+import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -14,9 +15,10 @@ import java.util.List;
  */
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
+    @NonNull
     @Override
     @EntityGraph(attributePaths = {"comments"})
-    Page<Message> findAll(Pageable pageable);
+    Page<Message> findAll(@NonNull Pageable pageable);
 
     @EntityGraph(attributePaths = { "comments" })
     Page<Message> findByAuthorIn(List<User> users, Pageable pageable);

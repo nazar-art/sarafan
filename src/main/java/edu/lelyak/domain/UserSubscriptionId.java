@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -17,6 +19,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class UserSubscriptionId implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @JsonView(Views.Id.class)
