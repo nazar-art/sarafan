@@ -9,6 +9,9 @@ Create `sarafan_db`.
 Update credentials for DB at `application.yml`
 
 ---
+### Tell Node to use the legacy OpenSSL provider
+
+    export NODE_OPTIONS=--openssl-legacy-provider
 
 ### Launch UI:
 
